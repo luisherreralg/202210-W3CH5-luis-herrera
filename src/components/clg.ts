@@ -1,7 +1,7 @@
 import { PokeApi } from '../services/poke.api.js';
 import { Component } from './component.js';
 
-export class Clg extends Component {
+export class PokePrint extends Component {
   template!: any;
   pokes: any;
   api: PokeApi;
@@ -26,9 +26,11 @@ export class Clg extends Component {
 
   createTemplate() {
     this.template = '';
+
     this.pokes.results.forEach((pokemon: any) => {
       this.template += `<h1>${pokemon.name}</h1>`;
     });
+
     return this.template;
   }
 }

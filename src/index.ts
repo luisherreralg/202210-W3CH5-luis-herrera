@@ -1,4 +1,4 @@
-import { Clg } from './components/clg.js';
+import { PokePrint } from './components/clg.js';
 
 console.log('Hola');
 
@@ -11,4 +11,4 @@ console.log('Hola');
 // const test1 = getPoke();
 // console.log(test1);
 
-new Clg(`body`);
+new PokePrint(`body`);

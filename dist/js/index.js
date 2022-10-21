@@ -1,4 +1,4 @@
-import { Clg } from './components/clg.js';
+import { PokePrint } from './components/clg.js';
 console.log('Hola');
 // const getPoke = () => {
 //   return fetch(`https://pokeapi.co/api/v2/pokemon?limit=20&offset=0`).then(
@@ -7,4 +7,4 @@ console.log('Hola');
 // };
 // const test1 = getPoke();
 // console.log(test1);
-new Clg(`body`);
+new PokePrint(`body`);
