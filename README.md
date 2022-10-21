@@ -1,14 +1,14 @@
 # Week 3 - Challenge WeekEnd
 
-![Logo Pokémon](pokemon-logo.svg)
+![Logo Pokémon](./src/assets/pokemon-logo.svg)
 
 ## Pokémon
 
 Esta aplicación tendrá tres páginas:
 
--   Todos los pokémon
--   Mis pokémon
--   Detalle de pokémon
+- Todos los pokémon
+- Mis pokémon
+- Detalle de pokémon
 
 El listado de todos los pokémon se alimentará de la PokéAPI, y deberá ir paginado e incluir la imagen del pokemon. El listado deberá ir acompañado de dos botones, para avanzar y retroceder de página. También debe mostrar el total de pokèmon mostrados vs. el total de pokèmon que existen (p.e. 10/1000).
 
