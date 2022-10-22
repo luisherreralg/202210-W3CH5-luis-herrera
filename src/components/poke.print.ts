@@ -1,4 +1,3 @@
-// import { IPokes } from '../models/poke.interface.js';
 import { PokeApi } from '../services/poke.api.js';
 import { Component } from './component.js';
 
