@@ -32,30 +32,21 @@ export class PokePrint extends Component {
         });
     }
     manageComponent() {
-        // this.createArrayOfPromises();
-        // console.log(this.pokes);
         this.template = this.createTemplate();
         this.renderAdd(this.selector, this.template);
     }
     createTemplate() {
         this.template = '';
-        // console.log(this.pokesInfo);
         this.pokesInfo.forEach((pokemon) => {
-            // console.log(pokemon);
             this.template += `<h1>${pokemon.species.name}</h1>`;
-            this.template += `<img src="${pokemon.sprites.front_default}" alt="" id = "${pokemon.species.name}" width="100"/>`;
+            this.template += `<img src="${pokemon.sprites.other.dream_world.front_default}" alt="" id = "${pokemon.species.name}" width="100"/>`;
         });
         return this.template;
     }
     handleGetPoke() {
         const idItems = document.querySelectorAll('img');
-        // console.log(idItems, typeof idItems);
-        // console.log(idItems[0]);
-        // console.log(idItems[0].id); // bulvasur
         for (const item of idItems) {
             item.addEventListener('click', function (event) {
-                // console.log(event);
-                // console.log(item);
                 console.log(item.id);
                 localStorage.setItem(`PokeClick`, item.id);
                 window.location.href = './details.html';
