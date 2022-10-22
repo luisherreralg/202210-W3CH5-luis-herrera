@@ -6,4 +6,7 @@ export class PokeApi {
     getPoke() {
         return fetch(this.urlDefault).then((response) => response.json());
     }
+    getPokeDetails(customURL) {
+        return fetch(customURL).then((response) => response.json());
+    }
 }

@@ -7,7 +7,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// import { IPokes } from '../models/poke.interface.js';
 import { PokeApi } from '../services/poke.api.js';
 import { Component } from './component.js';
 export class PokePrint extends Component {
@@ -29,6 +28,7 @@ export class PokePrint extends Component {
             });
             this.pokesInfo = yield Promise.all(pokemonArr.map((url) => fetch(url).then((r) => r.json())));
             this.manageComponent();
+            this.handleGetPoke();
         });
     }
     manageComponent() {
@@ -43,16 +43,23 @@ export class PokePrint extends Component {
         this.pokesInfo.forEach((pokemon) => {
             // console.log(pokemon);
             this.template += `<h1>${pokemon.species.name}</h1>`;
-            this.template += `<a href="./details.html"><img src="${pokemon.sprites.front_default}" alt="" width="100"/></a>`;
+            this.template += `<img src="${pokemon.sprites.front_default}" alt="" id = "${pokemon.species.name}" width="100"/>`;
         });
         return this.template;
     }
     handleGetPoke() {
-        const title = document.querySelector('#title').value;
-        const responsible = document.querySelector('#resp')
-            .value;
-        this.tasks.push(new Task(title, responsible));
-        this.storeService.setStore(this.tasks);
-        this.manageComponent();
+        const idItems = document.querySelectorAll('img');
+        // console.log(idItems, typeof idItems);
+        // console.log(idItems[0]);
+        // console.log(idItems[0].id); // bulvasur
+        for (const item of idItems) {
+            item.addEventListener('click', function (event) {
+                // console.log(event);
+                // console.log(item);
+                console.log(item.id);
+                localStorage.setItem(`PokeClick`, item.id);
+                window.location.href = './details.html';
+            });
+        }
     }
 }

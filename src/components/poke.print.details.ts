@@ -1,39 +1,32 @@
+import { PokeApi } from '../services/poke.api.js';
 import { Component } from './component.js';
 
 export class PokeDetailPrint extends Component {
   template!: string;
   pokeDetails: any;
+  api: PokeApi;
   constructor(public selector: string, public customURL: string) {
     super();
+    this.api = new PokeApi();
     this.pokeDetails = [];
-
     this.startFetch();
   }
 
   async startFetch() {
-    this.pokeDetails = fetch(this.customURL).then((response) =>
-      response.json()
-    );
-    console.log(this.pokeDetails);
-    // this.manageComponent();
+    this.pokeDetails = await this.api.getPokeDetails(this.customURL);
+    this.manageComponent();
   }
 
   manageComponent() {
-    // this.createArrayOfPromises();
-    // console.log(this.pokes);
-
     this.template = this.createTemplate();
     this.renderAdd(this.selector, this.template);
   }
 
   createTemplate() {
     this.template = '';
-
-    // console.log(this.pokesInfo);
-    this.pokeDetails.forEach((pokemon: any) => {
-      // console.log(pokemon);
-      this.template += `<h1>${pokemon.species.name}</h1>`;
-    });
+    console.log(this.pokeDetails);
+    this.template += `<h1>${this.pokeDetails.species.name}</h1>`;
+    this.template += `<img src="${this.pokeDetails.sprites.other.home.front_default}" alt="" />`;
 
     return this.template;
   }
