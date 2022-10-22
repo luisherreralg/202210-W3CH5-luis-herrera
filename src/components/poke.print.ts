@@ -30,6 +30,7 @@ export class PokePrint extends Component {
     );
 
     this.manageComponent();
+    this.handleGetPoke();
   }
 
   manageComponent() {
@@ -47,18 +48,36 @@ export class PokePrint extends Component {
     this.pokesInfo.forEach((pokemon: any) => {
       // console.log(pokemon);
       this.template += `<h1>${pokemon.species.name}</h1>`;
-      this.template += `<a href="./details.html"><img src="${pokemon.sprites.front_default}" alt="" width="100"/></a>`;
+      this.template += `<img src="${pokemon.sprites.front_default}" alt="" id = "${pokemon.species.name}" width="100"/>`;
     });
 
     return this.template;
   }
 
   handleGetPoke() {
-    const title = (document.querySelector('#title') as HTMLInputElement).value;
-    const responsible = (document.querySelector('#resp') as HTMLInputElement)
-      .value;
-    this.tasks.push(new Task(title, responsible));
-    this.storeService.setStore(this.tasks);
+    const idItems = document.querySelectorAll('img >id');
+    console.log(idItems, typeof idItems);
+    idItems.forEach((item) => {
+      item.addEventListener('click', (e) => {
+        console.log('Hola' + item.id);
+      });
+    });
+    // document.querySelectorAll('id').forEach((a) => {
+    //   a.addEventListener('click', (e: Event) => {
+    //     // Retrieve id from clicked element
+    //     const elementId = e.target.id;
+    //     // If element has id
+    //     if (elementId !== '') {
+    //       console.log(elementId);
+    //     }
+    //     // If element has no id
+    //     else {
+    //       console.log('An element without an id was clicked.');
+    //     }
+    //     console.log('A link was clicked');
+    //   });
+    // });
+
     this.manageComponent();
   }
 
