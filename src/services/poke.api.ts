@@ -9,6 +9,10 @@ export class PokeApi {
     return fetch(this.urlDefault).then((response) => response.json());
   }
 
+  getPokeDetails(customURL: string): Promise<string> {
+    return fetch(customURL).then((response) => response.json());
+  }
+
   // getPokeInfo(urlInfo: string) {
   //   return fetch(this.urlInfo).then((response) => response.json());
   // }

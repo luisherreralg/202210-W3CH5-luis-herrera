@@ -1,3 +1,4 @@
 import { PokePrint } from './components/poke.print.js';
 
-new PokePrint(`body`);
+const test = new PokePrint(`body`);
+console.log(test.handleGetPoke());

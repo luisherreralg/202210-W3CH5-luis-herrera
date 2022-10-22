@@ -7,35 +7,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { PokeApi } from '../services/poke.api.js';
 import { Component } from './component.js';
 export class PokeDetailPrint extends Component {
     constructor(selector, customURL) {
         super();
         this.selector = selector;
         this.customURL = customURL;
+        this.api = new PokeApi();
         this.pokeDetails = [];
         this.startFetch();
     }
     startFetch() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.pokeDetails = fetch(this.customURL).then((response) => response.json());
-            console.log(this.pokeDetails);
-            // this.manageComponent();
+            this.pokeDetails = yield this.api.getPokeDetails(this.customURL);
+            this.manageComponent();
         });
     }
     manageComponent() {
-        // this.createArrayOfPromises();
-        // console.log(this.pokes);
         this.template = this.createTemplate();
         this.renderAdd(this.selector, this.template);
     }
     createTemplate() {
         this.template = '';
-        // console.log(this.pokesInfo);
-        this.pokeDetails.forEach((pokemon) => {
-            // console.log(pokemon);
-            this.template += `<h1>${pokemon.species.name}</h1>`;
-        });
+        console.log(this.pokeDetails);
+        this.template += `<h1>${this.pokeDetails.species.name}</h1>`;
+        this.template += `<img src="${this.pokeDetails.sprites.other.home.front_default}" alt="" />`;
         return this.template;
     }
 }

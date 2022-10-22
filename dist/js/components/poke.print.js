@@ -49,28 +49,18 @@ export class PokePrint extends Component {
         return this.template;
     }
     handleGetPoke() {
-        const idItems = document.querySelectorAll('img >id');
-        console.log(idItems, typeof idItems);
-        idItems.forEach((item) => {
-            item.addEventListener('click', (e) => {
-                console.log('Hola' + item.id);
+        const idItems = document.querySelectorAll('img');
+        // console.log(idItems, typeof idItems);
+        // console.log(idItems[0]);
+        // console.log(idItems[0].id); // bulvasur
+        for (const item of idItems) {
+            item.addEventListener('click', function (event) {
+                // console.log(event);
+                // console.log(item);
+                console.log(item.id);
+                localStorage.setItem(`PokeClick`, item.id);
+                window.location.href = './details.html';
             });
-        });
-        // document.querySelectorAll('id').forEach((a) => {
-        //   a.addEventListener('click', (e: Event) => {
-        //     // Retrieve id from clicked element
-        //     const elementId = e.target.id;
-        //     // If element has id
-        //     if (elementId !== '') {
-        //       console.log(elementId);
-        //     }
-        //     // If element has no id
-        //     else {
-        //       console.log('An element without an id was clicked.');
-        //     }
-        //     console.log('A link was clicked');
-        //   });
-        // });
-        this.manageComponent();
+        }
     }
 }
