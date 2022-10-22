@@ -7,28 +7,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// import { IPokes } from '../models/poke.interface.js';
-import { PokeApi } from '../services/poke.api.js';
 import { Component } from './component.js';
-export class PokePrint extends Component {
-    constructor(selector) {
+export class PokeDetailPrint extends Component {
+    constructor(selector, customURL) {
         super();
         this.selector = selector;
-        this.api = new PokeApi();
-        this.pokes = [];
-        this.pokesInfo = '';
+        this.customURL = customURL;
+        this.pokeDetails = [];
         this.startFetch();
     }
     startFetch() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.pokes = yield this.api.getPoke();
-            console.log(this.pokes);
-            const pokemonArr = [];
-            this.pokes.results.forEach((item) => {
-                pokemonArr.push(item.url);
-            });
-            this.pokesInfo = yield Promise.all(pokemonArr.map((url) => fetch(url).then((r) => r.json())));
-            this.manageComponent();
+            this.pokeDetails = fetch(this.customURL).then((response) => response.json());
+            console.log(this.pokeDetails);
+            // this.manageComponent();
         });
     }
     manageComponent() {
@@ -40,10 +32,9 @@ export class PokePrint extends Component {
     createTemplate() {
         this.template = '';
         // console.log(this.pokesInfo);
-        this.pokesInfo.forEach((pokemon) => {
+        this.pokeDetails.forEach((pokemon) => {
             // console.log(pokemon);
             this.template += `<h1>${pokemon.species.name}</h1>`;
-            this.template += `<a href="./details.html"><img src="${pokemon.sprites.front_default}" alt="" width="100"/></a>`;
         });
         return this.template;
     }

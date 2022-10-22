@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 // import { IPokes } from '../models/poke.interface.js';
 import { PokeApi } from '../services/poke.api.js';
 import { Component } from './component.js';
-export class PokePrint extends Component {
+export class PokeDetailPrint extends Component {
     constructor(selector) {
         super();
         this.selector = selector;

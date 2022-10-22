@@ -47,4 +47,12 @@ export class PokePrint extends Component {
         });
         return this.template;
     }
+    handleGetPoke() {
+        const title = document.querySelector('#title').value;
+        const responsible = document.querySelector('#resp')
+            .value;
+        this.tasks.push(new Task(title, responsible));
+        this.storeService.setStore(this.tasks);
+        this.manageComponent();
+    }
 }
