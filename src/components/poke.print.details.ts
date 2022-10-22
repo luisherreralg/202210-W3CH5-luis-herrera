@@ -26,10 +26,8 @@ export class PokeDetailPrint extends Component {
     this.template = '';
     console.log(this.pokeDetails);
     this.template += `<h1>${this.pokeDetails.species.name}</h1>`;
-    this.template += `<img src="${this.pokeDetails.sprites.other.home.front_default}" alt="" />`;
+    this.template += `<img src="${this.pokeDetails.sprites.other.dream_world.front_default}" alt="" />`;
 
     return this.template;
   }
-
-  // async createArrayOfPromises() {}
 }
