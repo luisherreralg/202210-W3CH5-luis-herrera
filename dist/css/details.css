@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald&display=swap");
+* {
+  box-sizing: border-box;
+  color: #f5eeff;
+  font-family: "Oswald", sans-serif;
+}
+
+body {
+  max-width: 100vw;
+  max-height: 100vh;
+  background-color: #f2d1e6;
+}
+
+section {
+  width: 100%;
+  height: 100%;
+}
+
+.pokemon {
+  display: flex;
+  flex-direction: column;
+  background-color: #f3daed;
+  width: 100%;
+}
+
+/*# sourceMappingURL=details.css.map */

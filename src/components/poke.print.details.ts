@@ -26,15 +26,16 @@ export class PokeDetailPrint extends Component {
 
   createTemplate() {
     this.template = '';
-    this.template += `<h1>${this.pokeDetails.species.name}</h1>`;
-    this.template += `<img src="${this.pokeDetails.sprites.other.dream_world.front_default}" alt="" />`;
+    this.template += '<article class="pokemon">';
+    this.template += `<h2 class="pokemon__h2">${this.pokeDetails.species.name}</h2>`;
+    this.template += `<img src="${this.pokeDetails.sprites.other.dream_world.front_default}" alt="Pokemon image" class="pokemon__img"/>`;
     this.createStats();
     this.createTypes();
     return this.template;
   }
 
   createStats() {
-    this.template += '<h2>STATS</h2> <ul>';
+    this.template += '<h3class="pokemon__h3>STATS</h3> <ul>';
     this.pokeDetails.stats.forEach((item: any) => {
       this.template += `<li>${item.stat.name} - ${item.base_stat}</li>`;
     });
@@ -43,11 +44,11 @@ export class PokeDetailPrint extends Component {
   }
 
   createTypes() {
-    this.template += '<h2>TYPES</h2> <ul>';
+    this.template += '<h3class="pokemon__h3>TYPES</h3> <ul>';
     this.pokeDetails.types.forEach((item: any) => {
       this.template += `<li>${item.type.name}</li>`;
     });
-    this.template += `</ul>`;
+    this.template += `</ul></article>`;
     return this.template;
   }
 }

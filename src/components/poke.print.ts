@@ -74,7 +74,8 @@ export class PokePrint extends Component {
     this.render(this.selector, this.template);
     this.handleGetPoke();
 
-    const buttonNext = document.querySelector('.next');
+    const buttonNext = document.querySelector('.pokemon__buttons__next');
+    console.log(buttonNext);
     buttonNext?.addEventListener('click', () => {
       this.paginationData[0] += 20;
       this.pokes = this.pokesNext;
@@ -84,7 +85,7 @@ export class PokePrint extends Component {
       this.manageComponent();
     });
 
-    const buttonPrev = document.querySelector('.prev');
+    const buttonPrev = document.querySelector('.pokemon__buttons__prev');
     buttonPrev?.addEventListener('click', () => {
       this.paginationData[0] -= 20;
       this.pokes = this.pokesPrev;
@@ -98,12 +99,14 @@ export class PokePrint extends Component {
   createTemplate(array: any) {
     this.template = '';
     array.forEach((pokemon: any) => {
-      this.template += `<h1>${pokemon.species.name}</h1>`;
-      this.template += `<img src="${pokemon.sprites.other.dream_world.front_default}" alt="" id = "${pokemon.species.name}" width="100"/>`;
+      this.template += `<div class="pokemon">`;
+      this.template += `<h2 class="pokemon__h2">${pokemon.species.name}</h2>`;
+      this.template += `<img src="${pokemon.sprites.other.dream_world.front_default}" alt="Pokemon Image" id = "${pokemon.species.name}" width="100" class="pokemon__img"/>`;
+      this.template += `</div>`;
     });
-    this.template += `<button type="submit" class="next">NEXT</button>`;
-    this.template += `<p>${this.paginationData[0]} / ${this.paginationData[1]}</p>`;
-    this.template += `<button type="submit" class="prev">PREV</button>`;
+    this.template += `<div class='pokemon__buttons'><button type="submit" class="pokemon__buttons__prev"><</button>`;
+    this.template += `<p class='pokemon__buttons__p'>${this.paginationData[0]} / ${this.paginationData[1]}</p>`;
+    this.template += `<button type="submit" class="pokemon__buttons__next">></button></div>`;
     return this.template;
   }
 
