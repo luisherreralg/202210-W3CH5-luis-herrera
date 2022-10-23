@@ -42,7 +42,6 @@ export class PokePrint extends Component {
 
   async startPrevFetchCycle() {
     this.pokesPrev = await this.api.getCustomPage(this.pokes.previous);
-    console.log(this.pokesPrev);
 
     const pokemonArrPrev: any = [];
     this.pokesPrev.results.forEach((item: any) => {
@@ -83,17 +82,10 @@ export class PokePrint extends Component {
 
     const buttonPrev = document.querySelector('.prev');
     buttonPrev?.addEventListener('click', () => {
-      // console.log(this.pokes);
-      // console.log(this.pokesInfo);
-
-      // console.log(this.pokesPrev);
-      // console.log(this.pokesPrevInfo);
-
       this.pokes = this.pokesPrev;
       this.pokesInfo = this.pokesPrevInfo;
       this.startNextFetchCycle();
       this.startPrevFetchCycle();
-
       this.manageComponent();
     });
   }
