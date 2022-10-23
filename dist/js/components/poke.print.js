@@ -24,7 +24,6 @@ export class PokePrint extends Component {
     }
     startFirstFetch() {
         return __awaiter(this, void 0, void 0, function* () {
-            //----------------------------------------------PÁGINA ACTUAL----------------------------------------------------------
             this.pokes = yield this.api.getPoke();
             const pokemonArr = [];
             this.pokes.results.forEach((item) => {
@@ -34,7 +33,6 @@ export class PokePrint extends Component {
             this.startNextFetchCycle();
             this.startPrevFetchCycle();
             this.manageComponent();
-            this.handleGetPoke();
         });
     }
     startPrevFetchCycle() {
@@ -61,6 +59,7 @@ export class PokePrint extends Component {
     manageComponent(array = this.pokesInfo) {
         this.template = this.createTemplate(array);
         this.render(this.selector, this.template);
+        this.handleGetPoke();
         const buttonNext = document.querySelector('.next');
         buttonNext === null || buttonNext === void 0 ? void 0 : buttonNext.addEventListener('click', () => {
             this.pokes = this.pokesNext;

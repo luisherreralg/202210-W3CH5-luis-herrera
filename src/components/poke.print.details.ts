@@ -27,6 +27,7 @@ export class PokeDetailPrint extends Component {
     console.log(this.pokeDetails);
     this.template += `<h1>${this.pokeDetails.species.name}</h1>`;
     this.template += `<img src="${this.pokeDetails.sprites.other.dream_world.front_default}" alt="" />`;
+    this.template += `<h2>${this.pokeDetails.}</h2>`
 
     return this.template;
   }

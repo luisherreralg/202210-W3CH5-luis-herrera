@@ -24,8 +24,6 @@ export class PokePrint extends Component {
   }
 
   async startFirstFetch() {
-    //----------------------------------------------PÁGINA ACTUAL----------------------------------------------------------
-
     this.pokes = await this.api.getPoke();
 
     const pokemonArr: any = [];
@@ -39,9 +37,7 @@ export class PokePrint extends Component {
 
     this.startNextFetchCycle();
     this.startPrevFetchCycle();
-
     this.manageComponent();
-    this.handleGetPoke();
   }
 
   async startPrevFetchCycle() {
@@ -74,6 +70,7 @@ export class PokePrint extends Component {
   manageComponent(array = this.pokesInfo) {
     this.template = this.createTemplate(array);
     this.render(this.selector, this.template);
+    this.handleGetPoke();
 
     const buttonNext = document.querySelector('.next');
     buttonNext?.addEventListener('click', () => {
@@ -112,6 +109,7 @@ export class PokePrint extends Component {
     this.template += `<button type="submit" class="prev">PREV</button>`;
     return this.template;
   }
+
   handleGetPoke() {
     const idItems = document.querySelectorAll('img');
 
