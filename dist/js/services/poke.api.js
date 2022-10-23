@@ -9,4 +9,7 @@ export class PokeApi {
     getPokeDetails(customURL) {
         return fetch(customURL).then((response) => response.json());
     }
+    getCustomPage(nextUrl) {
+        return fetch(nextUrl).then((response) => response.json());
+    }
 }
