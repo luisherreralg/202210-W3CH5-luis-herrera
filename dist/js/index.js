@@ -1,3 +1,4 @@
+import { Header } from './components/header.js';
 import { PokePrint } from './components/poke.print.js';
-const test = new PokePrint(`body`);
-console.log(test.handleGetPoke());
+new Header('body');
+new PokePrint(`section.section`);

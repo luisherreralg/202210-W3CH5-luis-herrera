@@ -12,4 +12,8 @@ export class PokeApi {
   getPokeDetails(customURL: string): Promise<string> {
     return fetch(customURL).then((response) => response.json());
   }
+
+  getCustomPage(nextUrl: string): Promise<any> {
+    return fetch(nextUrl).then((response) => response.json());
+  }
 }

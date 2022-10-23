@@ -1,0 +1,12 @@
+$oswald: 'Oswald', sans-serif;
+$pink_background: #f2d1e6;
+$pink_card: #f3daed;
+$purple_name_card: #baa8dc;
+$green_buttons: #219ea7;
+$white_background_buttons: #f5fbf2;
+
+@mixin body {
+  max-width: 100vw;
+  max-height: 100vh;
+  background-color: #f2d1e6;
+}
