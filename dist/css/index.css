@@ -14,11 +14,11 @@
 .header {
   display: flex;
   justify-content: center;
-  margin: 3em;
+  margin: 1em;
 }
 .header .header_img {
-  width: 80%;
-  height: 80%;
+  width: 20em;
+  height: 20em;
   object-fit: fill;
 }
 

@@ -1,3 +1,4 @@
+import { IResults } from '../models/poke.interface.js';
 import { PokeApi } from '../services/poke.api.js';
 import { Component } from './component.js';
 
@@ -5,22 +6,22 @@ export class PokePrint extends Component {
   template!: string;
   pokes: any;
   pokesNext: any;
-  pokesNextInfo: any;
-  pokesInfo: any;
+  pokesNextInfo: Array<string>;
+  pokesInfo: Array<string>;
   pokesPrev: any;
-  pokesPrevInfo: any;
+  pokesPrevInfo: Array<string>;
   api: PokeApi;
-  paginationData: Array<any>;
+  paginationData: Array<number>;
 
   constructor(public selector: string) {
     super();
     this.api = new PokeApi();
     this.pokes = [];
-    this.pokesInfo = '';
+    this.pokesInfo = [];
     this.pokesNext = [];
-    this.pokesNextInfo = '';
+    this.pokesNextInfo = [];
     this.pokesPrev = [];
-    this.pokesPrevInfo = '';
+    this.pokesPrevInfo = [];
     this.startFirstFetch();
     this.paginationData = [20, 0];
   }
@@ -29,8 +30,8 @@ export class PokePrint extends Component {
     this.pokes = await this.api.getPoke();
     this.paginationData[1] = this.pokes.count;
 
-    const pokemonArr: any = [];
-    this.pokes.results.forEach((item: any) => {
+    const pokemonArr: Array<string> = [];
+    this.pokes.results.forEach((item: IResults) => {
       pokemonArr.push(item.url);
     });
 
@@ -39,15 +40,14 @@ export class PokePrint extends Component {
     );
 
     this.startNextFetchCycle();
-    this.startPrevFetchCycle();
     this.manageComponent();
   }
 
   async startPrevFetchCycle() {
     this.pokesPrev = await this.api.getCustomPage(this.pokes.previous);
 
-    const pokemonArrPrev: any = [];
-    this.pokesPrev.results.forEach((item: any) => {
+    const pokemonArrPrev: Array<string> = [];
+    this.pokesPrev.results.forEach((item: IResults) => {
       pokemonArrPrev.push(item.url);
     });
 
@@ -69,36 +69,16 @@ export class PokePrint extends Component {
     );
   }
 
-  manageComponent(array = this.pokesInfo) {
-    this.template = this.createTemplate(array);
+  manageComponent() {
+    this.template = this.createTemplate();
     this.render(this.selector, this.template);
     this.handleGetPoke();
-
-    const buttonNext = document.querySelector('.pokemon__buttons__next');
-    console.log(buttonNext);
-    buttonNext?.addEventListener('click', () => {
-      this.paginationData[0] += 20;
-      this.pokes = this.pokesNext;
-      this.pokesInfo = this.pokesNextInfo;
-      this.startNextFetchCycle();
-      this.startPrevFetchCycle();
-      this.manageComponent();
-    });
-
-    const buttonPrev = document.querySelector('.pokemon__buttons__prev');
-    buttonPrev?.addEventListener('click', () => {
-      this.paginationData[0] -= 20;
-      this.pokes = this.pokesPrev;
-      this.pokesInfo = this.pokesPrevInfo;
-      this.startNextFetchCycle();
-      this.startPrevFetchCycle();
-      this.manageComponent();
-    });
+    this.buttons();
   }
 
-  createTemplate(array: any) {
+  createTemplate() {
     this.template = '';
-    array.forEach((pokemon: any) => {
+    this.pokesInfo.forEach((pokemon: any) => {
       this.template += `<div class="pokemon">`;
       this.template += `<h2 class="pokemon__h2">${pokemon.species.name}</h2>`;
       this.template += `<img src="${pokemon.sprites.other.dream_world.front_default}" alt="Pokemon Image" id = "${pokemon.species.name}" width="100" class="pokemon__img"/>`;
@@ -114,10 +94,33 @@ export class PokePrint extends Component {
     const idItems = document.querySelectorAll('img');
 
     for (const item of idItems) {
-      item.addEventListener('click', function (event: any) {
-        console.log(item.id);
+      item.addEventListener('click', function () {
         localStorage.setItem(`PokeClick`, item.id);
         window.location.href = './details.html';
+      });
+    }
+  }
+
+  buttons() {
+    const buttonNext = document.querySelector('.pokemon__buttons__next');
+    buttonNext?.addEventListener('click', () => {
+      this.paginationData[0] += 20;
+      this.pokes = this.pokesNext;
+      this.pokesInfo = this.pokesNextInfo;
+      this.startNextFetchCycle();
+      this.startPrevFetchCycle();
+      this.manageComponent();
+    });
+
+    if (this.paginationData[0] > 20) {
+      const buttonPrev = document.querySelector('.pokemon__buttons__prev');
+      buttonPrev?.addEventListener('click', () => {
+        this.paginationData[0] -= 20;
+        this.pokes = this.pokesPrev;
+        this.pokesInfo = this.pokesPrevInfo;
+        this.startNextFetchCycle();
+        this.startPrevFetchCycle();
+        this.manageComponent();
       });
     }
   }

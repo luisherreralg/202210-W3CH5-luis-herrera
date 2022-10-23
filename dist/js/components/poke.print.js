@@ -15,11 +15,11 @@ export class PokePrint extends Component {
         this.selector = selector;
         this.api = new PokeApi();
         this.pokes = [];
-        this.pokesInfo = '';
+        this.pokesInfo = [];
         this.pokesNext = [];
-        this.pokesNextInfo = '';
+        this.pokesNextInfo = [];
         this.pokesPrev = [];
-        this.pokesPrevInfo = '';
+        this.pokesPrevInfo = [];
         this.startFirstFetch();
         this.paginationData = [20, 0];
     }
@@ -33,7 +33,6 @@ export class PokePrint extends Component {
             });
             this.pokesInfo = yield Promise.all(pokemonArr.map((url) => fetch(url).then((r) => r.json())));
             this.startNextFetchCycle();
-            this.startPrevFetchCycle();
             this.manageComponent();
         });
     }
@@ -57,33 +56,15 @@ export class PokePrint extends Component {
             this.pokesNextInfo = yield Promise.all(pokemonArrNext.map((url) => fetch(url).then((r) => r.json())));
         });
     }
-    manageComponent(array = this.pokesInfo) {
-        this.template = this.createTemplate(array);
+    manageComponent() {
+        this.template = this.createTemplate();
         this.render(this.selector, this.template);
         this.handleGetPoke();
-        const buttonNext = document.querySelector('.pokemon__buttons__next');
-        console.log(buttonNext);
-        buttonNext === null || buttonNext === void 0 ? void 0 : buttonNext.addEventListener('click', () => {
-            this.paginationData[0] += 20;
-            this.pokes = this.pokesNext;
-            this.pokesInfo = this.pokesNextInfo;
-            this.startNextFetchCycle();
-            this.startPrevFetchCycle();
-            this.manageComponent();
-        });
-        const buttonPrev = document.querySelector('.pokemon__buttons__prev');
-        buttonPrev === null || buttonPrev === void 0 ? void 0 : buttonPrev.addEventListener('click', () => {
-            this.paginationData[0] -= 20;
-            this.pokes = this.pokesPrev;
-            this.pokesInfo = this.pokesPrevInfo;
-            this.startNextFetchCycle();
-            this.startPrevFetchCycle();
-            this.manageComponent();
-        });
+        this.buttons();
     }
-    createTemplate(array) {
+    createTemplate() {
         this.template = '';
-        array.forEach((pokemon) => {
+        this.pokesInfo.forEach((pokemon) => {
             this.template += `<div class="pokemon">`;
             this.template += `<h2 class="pokemon__h2">${pokemon.species.name}</h2>`;
             this.template += `<img src="${pokemon.sprites.other.dream_world.front_default}" alt="Pokemon Image" id = "${pokemon.species.name}" width="100" class="pokemon__img"/>`;
@@ -97,10 +78,31 @@ export class PokePrint extends Component {
     handleGetPoke() {
         const idItems = document.querySelectorAll('img');
         for (const item of idItems) {
-            item.addEventListener('click', function (event) {
-                console.log(item.id);
+            item.addEventListener('click', function () {
                 localStorage.setItem(`PokeClick`, item.id);
                 window.location.href = './details.html';
+            });
+        }
+    }
+    buttons() {
+        const buttonNext = document.querySelector('.pokemon__buttons__next');
+        buttonNext === null || buttonNext === void 0 ? void 0 : buttonNext.addEventListener('click', () => {
+            this.paginationData[0] += 20;
+            this.pokes = this.pokesNext;
+            this.pokesInfo = this.pokesNextInfo;
+            this.startNextFetchCycle();
+            this.startPrevFetchCycle();
+            this.manageComponent();
+        });
+        if (this.paginationData[0] > 20) {
+            const buttonPrev = document.querySelector('.pokemon__buttons__prev');
+            buttonPrev === null || buttonPrev === void 0 ? void 0 : buttonPrev.addEventListener('click', () => {
+                this.paginationData[0] -= 20;
+                this.pokes = this.pokesPrev;
+                this.pokesInfo = this.pokesPrevInfo;
+                this.startNextFetchCycle();
+                this.startPrevFetchCycle();
+                this.manageComponent();
             });
         }
     }

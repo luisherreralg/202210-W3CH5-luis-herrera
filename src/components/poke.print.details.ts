@@ -35,7 +35,8 @@ export class PokeDetailPrint extends Component {
   }
 
   createStats() {
-    this.template += '<h3class="pokemon__h3>STATS</h3> <ul>';
+    this.template +=
+      '<div class="pokemon__div"><h3 class="pokemon__h3">STATS</h3> <ul>';
     this.pokeDetails.stats.forEach((item: any) => {
       this.template += `<li>${item.stat.name} - ${item.base_stat}</li>`;
     });
@@ -44,11 +45,11 @@ export class PokeDetailPrint extends Component {
   }
 
   createTypes() {
-    this.template += '<h3class="pokemon__h3>TYPES</h3> <ul>';
+    this.template += '<h3 class="pokemon__h3">TYPES</h3> <ul>';
     this.pokeDetails.types.forEach((item: any) => {
       this.template += `<li>${item.type.name}</li>`;
     });
-    this.template += `</ul></article>`;
+    this.template += `</ul></div></article>`;
     return this.template;
   }
 }
