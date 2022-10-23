@@ -7,6 +7,8 @@ export class PokePrint extends Component {
   pokesNext: any;
   pokesNextInfo: any;
   pokesInfo: any;
+  pokesPrev: any;
+  pokesPrevInfo: any;
   api: PokeApi;
 
   constructor(public selector: string) {
@@ -16,6 +18,8 @@ export class PokePrint extends Component {
     this.pokesInfo = '';
     this.pokesNext = [];
     this.pokesNextInfo = '';
+    this.pokesPrev = [];
+    this.pokesPrevInfo = '';
     this.startFirstFetch();
   }
 
@@ -33,20 +37,25 @@ export class PokePrint extends Component {
       pokemonArr.map((url: string) => fetch(url).then((r) => r.json()))
     );
 
-    //----------------------------------------------PÁGINA SIGUIENTE----------------------------------------------------------
-    this.pokesNext = await this.api.getCustomPage(this.pokes.next);
-
-    const pokemonArrNext: any = [];
-    this.pokesNext.results.forEach((item: any) => {
-      pokemonArrNext.push(item.url);
-    });
-
-    this.pokesNextInfo = await Promise.all(
-      pokemonArrNext.map((url: string) => fetch(url).then((r) => r.json()))
-    );
+    this.startNextFetchCycle();
+    this.startPrevFetchCycle();
 
     this.manageComponent();
     this.handleGetPoke();
+  }
+
+  async startPrevFetchCycle() {
+    this.pokesPrev = await this.api.getCustomPage(this.pokes.previous);
+    console.log(this.pokesPrev);
+
+    const pokemonArrPrev: any = [];
+    this.pokesPrev.results.forEach((item: any) => {
+      pokemonArrPrev.push(item.url);
+    });
+
+    this.pokesPrevInfo = await Promise.all(
+      pokemonArrPrev.map((url: string) => fetch(url).then((r) => r.json()))
+    );
   }
 
   async startNextFetchCycle() {
@@ -60,9 +69,6 @@ export class PokePrint extends Component {
     this.pokesNextInfo = await Promise.all(
       pokemonArrNext.map((url: string) => fetch(url).then((r) => r.json()))
     );
-
-    this.manageComponent();
-    this.handleGetPoke();
   }
 
   manageComponent(array = this.pokesInfo) {
@@ -74,6 +80,23 @@ export class PokePrint extends Component {
       this.pokes = this.pokesNext;
       this.pokesInfo = this.pokesNextInfo;
       this.startNextFetchCycle();
+      this.startPrevFetchCycle();
+      this.manageComponent();
+    });
+
+    const buttonPrev = document.querySelector('.prev');
+    buttonPrev?.addEventListener('click', () => {
+      // console.log(this.pokes);
+      // console.log(this.pokesInfo);
+
+      // console.log(this.pokesPrev);
+      // console.log(this.pokesPrevInfo);
+
+      this.pokes = this.pokesPrev;
+      this.pokesInfo = this.pokesPrevInfo;
+      this.startNextFetchCycle();
+      this.startPrevFetchCycle();
+
       this.manageComponent();
     });
   }
@@ -86,6 +109,7 @@ export class PokePrint extends Component {
     });
 
     this.template += `<button type="submit" class="next">NEXT</button>`;
+    this.template += `<button type="submit" class="prev">PREV</button>`;
     return this.template;
   }
   handleGetPoke() {

@@ -18,6 +18,8 @@ export class PokePrint extends Component {
         this.pokesInfo = '';
         this.pokesNext = [];
         this.pokesNextInfo = '';
+        this.pokesPrev = [];
+        this.pokesPrevInfo = '';
         this.startFirstFetch();
     }
     startFirstFetch() {
@@ -29,15 +31,21 @@ export class PokePrint extends Component {
                 pokemonArr.push(item.url);
             });
             this.pokesInfo = yield Promise.all(pokemonArr.map((url) => fetch(url).then((r) => r.json())));
-            //----------------------------------------------PÁGINA SIGUIENTE----------------------------------------------------------
-            this.pokesNext = yield this.api.getCustomPage(this.pokes.next);
-            const pokemonArrNext = [];
-            this.pokesNext.results.forEach((item) => {
-                pokemonArrNext.push(item.url);
-            });
-            this.pokesNextInfo = yield Promise.all(pokemonArrNext.map((url) => fetch(url).then((r) => r.json())));
+            this.startNextFetchCycle();
+            this.startPrevFetchCycle();
             this.manageComponent();
             this.handleGetPoke();
+        });
+    }
+    startPrevFetchCycle() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.pokesPrev = yield this.api.getCustomPage(this.pokes.previous);
+            console.log(this.pokesPrev);
+            const pokemonArrPrev = [];
+            this.pokesPrev.results.forEach((item) => {
+                pokemonArrPrev.push(item.url);
+            });
+            this.pokesPrevInfo = yield Promise.all(pokemonArrPrev.map((url) => fetch(url).then((r) => r.json())));
         });
     }
     startNextFetchCycle() {
@@ -48,8 +56,6 @@ export class PokePrint extends Component {
                 pokemonArrNext.push(item.url);
             });
             this.pokesNextInfo = yield Promise.all(pokemonArrNext.map((url) => fetch(url).then((r) => r.json())));
-            this.manageComponent();
-            this.handleGetPoke();
         });
     }
     manageComponent(array = this.pokesInfo) {
@@ -60,6 +66,19 @@ export class PokePrint extends Component {
             this.pokes = this.pokesNext;
             this.pokesInfo = this.pokesNextInfo;
             this.startNextFetchCycle();
+            this.startPrevFetchCycle();
+            this.manageComponent();
+        });
+        const buttonPrev = document.querySelector('.prev');
+        buttonPrev === null || buttonPrev === void 0 ? void 0 : buttonPrev.addEventListener('click', () => {
+            // console.log(this.pokes);
+            // console.log(this.pokesInfo);
+            // console.log(this.pokesPrev);
+            // console.log(this.pokesPrevInfo);
+            this.pokes = this.pokesPrev;
+            this.pokesInfo = this.pokesPrevInfo;
+            this.startNextFetchCycle();
+            this.startPrevFetchCycle();
             this.manageComponent();
         });
     }
@@ -70,6 +89,7 @@ export class PokePrint extends Component {
             this.template += `<img src="${pokemon.sprites.other.dream_world.front_default}" alt="" id = "${pokemon.species.name}" width="100"/>`;
         });
         this.template += `<button type="submit" class="next">NEXT</button>`;
+        this.template += `<button type="submit" class="prev">PREV</button>`;
         return this.template;
     }
     handleGetPoke() {
