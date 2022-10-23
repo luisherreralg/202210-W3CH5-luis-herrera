@@ -107,7 +107,6 @@ export class PokePrint extends Component {
 
     for (const item of idItems) {
       item.addEventListener('click', function (event: any) {
-        console.log(item.id);
         localStorage.setItem(`PokeClick`, item.id);
         window.location.href = './details.html';
       });

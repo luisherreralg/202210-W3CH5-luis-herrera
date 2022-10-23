@@ -90,7 +90,6 @@ export class PokePrint extends Component {
         const idItems = document.querySelectorAll('img');
         for (const item of idItems) {
             item.addEventListener('click', function (event) {
-                console.log(item.id);
                 localStorage.setItem(`PokeClick`, item.id);
                 window.location.href = './details.html';
             });
