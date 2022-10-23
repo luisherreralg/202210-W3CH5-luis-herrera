@@ -10,6 +10,7 @@ export class PokePrint extends Component {
   pokesPrev: any;
   pokesPrevInfo: any;
   api: PokeApi;
+  paginationData: Array<any>;
 
   constructor(public selector: string) {
     super();
@@ -21,10 +22,12 @@ export class PokePrint extends Component {
     this.pokesPrev = [];
     this.pokesPrevInfo = '';
     this.startFirstFetch();
+    this.paginationData = [20, 0];
   }
 
   async startFirstFetch() {
     this.pokes = await this.api.getPoke();
+    this.paginationData[1] = this.pokes.count;
 
     const pokemonArr: any = [];
     this.pokes.results.forEach((item: any) => {
@@ -73,6 +76,7 @@ export class PokePrint extends Component {
 
     const buttonNext = document.querySelector('.next');
     buttonNext?.addEventListener('click', () => {
+      this.paginationData[0] += 20;
       this.pokes = this.pokesNext;
       this.pokesInfo = this.pokesNextInfo;
       this.startNextFetchCycle();
@@ -82,6 +86,7 @@ export class PokePrint extends Component {
 
     const buttonPrev = document.querySelector('.prev');
     buttonPrev?.addEventListener('click', () => {
+      this.paginationData[0] -= 20;
       this.pokes = this.pokesPrev;
       this.pokesInfo = this.pokesPrevInfo;
       this.startNextFetchCycle();
@@ -96,8 +101,8 @@ export class PokePrint extends Component {
       this.template += `<h1>${pokemon.species.name}</h1>`;
       this.template += `<img src="${pokemon.sprites.other.dream_world.front_default}" alt="" id = "${pokemon.species.name}" width="100"/>`;
     });
-
     this.template += `<button type="submit" class="next">NEXT</button>`;
+    this.template += `<p>${this.paginationData[0]} / ${this.paginationData[1]}</p>`;
     this.template += `<button type="submit" class="prev">PREV</button>`;
     return this.template;
   }
@@ -107,6 +112,7 @@ export class PokePrint extends Component {
 
     for (const item of idItems) {
       item.addEventListener('click', function (event: any) {
+        console.log(item.id);
         localStorage.setItem(`PokeClick`, item.id);
         window.location.href = './details.html';
       });

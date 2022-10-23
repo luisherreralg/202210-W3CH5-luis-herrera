@@ -21,10 +21,12 @@ export class PokePrint extends Component {
         this.pokesPrev = [];
         this.pokesPrevInfo = '';
         this.startFirstFetch();
+        this.paginationData = [20, 0];
     }
     startFirstFetch() {
         return __awaiter(this, void 0, void 0, function* () {
             this.pokes = yield this.api.getPoke();
+            this.paginationData[1] = this.pokes.count;
             const pokemonArr = [];
             this.pokes.results.forEach((item) => {
                 pokemonArr.push(item.url);
@@ -61,6 +63,7 @@ export class PokePrint extends Component {
         this.handleGetPoke();
         const buttonNext = document.querySelector('.next');
         buttonNext === null || buttonNext === void 0 ? void 0 : buttonNext.addEventListener('click', () => {
+            this.paginationData[0] += 20;
             this.pokes = this.pokesNext;
             this.pokesInfo = this.pokesNextInfo;
             this.startNextFetchCycle();
@@ -69,6 +72,7 @@ export class PokePrint extends Component {
         });
         const buttonPrev = document.querySelector('.prev');
         buttonPrev === null || buttonPrev === void 0 ? void 0 : buttonPrev.addEventListener('click', () => {
+            this.paginationData[0] -= 20;
             this.pokes = this.pokesPrev;
             this.pokesInfo = this.pokesPrevInfo;
             this.startNextFetchCycle();
@@ -83,6 +87,7 @@ export class PokePrint extends Component {
             this.template += `<img src="${pokemon.sprites.other.dream_world.front_default}" alt="" id = "${pokemon.species.name}" width="100"/>`;
         });
         this.template += `<button type="submit" class="next">NEXT</button>`;
+        this.template += `<p>${this.paginationData[0]} / ${this.paginationData[1]}</p>`;
         this.template += `<button type="submit" class="prev">PREV</button>`;
         return this.template;
     }
@@ -90,6 +95,7 @@ export class PokePrint extends Component {
         const idItems = document.querySelectorAll('img');
         for (const item of idItems) {
             item.addEventListener('click', function (event) {
+                console.log(item.id);
                 localStorage.setItem(`PokeClick`, item.id);
                 window.location.href = './details.html';
             });
